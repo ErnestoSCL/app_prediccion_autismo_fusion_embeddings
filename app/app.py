@@ -183,13 +183,13 @@ if seccion == "🩺 Prueba del Modelo":
     st.write("Si no tienes imágenes a mano, puedes cargar perfiles clínicos pre-extraídos:")
     ej1, ej2, ej3, ej4 = st.columns(4)
     with ej1:
-        if st.button("🔴 Autismo (Alta prob)", use_container_width=True): load_example("autism1")
+        if st.button("🔴 Autismo (Alta prob)", width='stretch'): load_example("autism1")
     with ej2:
-        if st.button("🟠 Autismo (Moderada)", use_container_width=True): load_example("autism2")
+        if st.button("🟠 Autismo (Moderada)", width='stretch'): load_example("autism2")
     with ej3:
-        if st.button("🟢 Neurotípico (Control)", use_container_width=True): load_example("control1")
+        if st.button("🟢 Neurotípico (Control)", width='stretch'): load_example("control1")
     with ej4:
-        if st.button("🧹 Limpiar Entradas", use_container_width=True): clear_examples()
+        if st.button("🧹 Limpiar Entradas", width='stretch'): clear_examples()
     
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -201,21 +201,21 @@ if seccion == "🩺 Prueba del Modelo":
         sag_file = st.file_uploader("Sube recorte Sagital", type=["png", "jpg", "jpeg"], key="sag")
         img_sag = render_standard_image(Image.open(sag_file) if sag_file else st.session_state.demo_sag)
         if img_sag:
-            st.image(img_sag, use_container_width=True, caption="Entrada Sagital (256x256)")
+            st.image(img_sag, width='stretch', caption="Entrada Sagital (256x256)")
 
     with col2:
         st.markdown("<div class='upload-card'><h3>Plano Coronal</h3></div>", unsafe_allow_html=True)
         cor_file = st.file_uploader("Sube recorte Coronal", type=["png", "jpg", "jpeg"], key="cor")
         img_cor = render_standard_image(Image.open(cor_file) if cor_file else st.session_state.demo_cor)
         if img_cor:
-            st.image(img_cor, use_container_width=True, caption="Entrada Coronal (256x256)")
+            st.image(img_cor, width='stretch', caption="Entrada Coronal (256x256)")
 
     with col3:
         st.markdown("<div class='upload-card'><h3>Plano Axial</h3></div>", unsafe_allow_html=True)
         axi_file = st.file_uploader("Sube recorte Axial", type=["png", "jpg", "jpeg"], key="axi")
         img_axi = render_standard_image(Image.open(axi_file) if axi_file else st.session_state.demo_axi)
         if img_axi:
-            st.image(img_axi, use_container_width=True, caption="Entrada Axial (256x256)")
+            st.image(img_axi, width='stretch', caption="Entrada Axial (256x256)")
 
     st.markdown("---")
 
@@ -224,7 +224,7 @@ if seccion == "🩺 Prueba del Modelo":
     col_empty, col_button, col_empty2 = st.columns([1, 2, 1])
 
     with col_button:
-        if st.button("Generar Reporte de Predicción", type="primary", disabled=not all_uploaded, use_container_width=True):
+        if st.button("Generar Reporte de Predicción", type="primary", disabled=not all_uploaded, width='stretch'):
             
             with st.spinner("Fusionando representaciones tensoriales..."):
                 prob = predictor.predict(img_sag, img_cor, img_axi)
