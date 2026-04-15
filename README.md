@@ -36,11 +36,12 @@ graph TD
 
 ```text
 app_prediccion_autismo_fusion_embeddings/
-├── app.py                      # Aplicación Streamlit principal y UI
-├── requirements.txt            # Dependencias del entorno
 ├── README.md                   # Esta documentación
-├── src/                        # Código base y scripts de Inferencia
-│   └── inference.py            # Clase MultimodalPredictor para hacer inferencia en vivo
+├── app/                        # Aplicación web, inferencia y dependencias
+│   ├── app.py                  # Aplicación Streamlit principal y UI
+│   ├── inference.py            # Clase MultimodalPredictor para inferencia
+│   ├── requirements.txt        # Librerías del entorno
+│   └── assets/                 # Casos pre-cargados para demostración en UI
 ├── models/                     # Carpeta local de almacenamiento de pesos entrenados
 │   └── baseline/               # Modelos base `.pth` de extracción
 ├── notebooks/                  # Experimentos técnicos MLOps 
@@ -48,7 +49,6 @@ app_prediccion_autismo_fusion_embeddings/
 │   ├── PREPROCESAMIENTO.ipynb                  # Balance, Augmentación y Splits
 │   ├── ENTRENAMIENTO_MODELOS_POR_CORTE.ipynb   # Tuning aislado de EfficientNetB0
 │   └── ENTRENAMIENTO_MODELO_MULTIMODAL.ipynb   # Fusión temprana y ensamble de predictores
-└── examples/                   # Casos pre-cargados a nivel de demostración UI
 ```
 
 ## 🚀 Instalación y Ejecución Local

@@ -4,9 +4,8 @@ from pathlib import Path
 import sys
 import os
 
-# Asegurar que el modulo src sea encontrado
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from src.inference import MultimodalPredictor
+# El archivo inference.py ahora se encuentra en la misma carpeta que app.py
+from inference import MultimodalPredictor
 
 # ==========================================
 # 0. CONFIGURACIÓN DE PÁGINA
@@ -116,7 +115,7 @@ st.markdown(STITCH_CSS, unsafe_allow_html=True)
 @st.cache_resource(show_spinner=False)
 def load_predictor():
     current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
-    models_dir = current_dir / "models"
+    models_dir = current_dir.parent / "models"
     return MultimodalPredictor(str(models_dir))
 
 # Manejo de estado para cargar ejemplos
@@ -128,7 +127,7 @@ if "demo_axi" not in st.session_state:
     st.session_state.demo_axi = None
 
 def load_example(prefix):
-    base_path = Path(__file__).parent / "examples"
+    base_path = Path(__file__).parent / "assets"
     st.session_state.demo_sag = Image.open(base_path / f"{prefix}_sagittal.png")
     st.session_state.demo_cor = Image.open(base_path / f"{prefix}_coronal.png")
     st.session_state.demo_axi = Image.open(base_path / f"{prefix}_axial.png")
