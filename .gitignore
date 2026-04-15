@@ -1,0 +1,24 @@
+# Ficheros de Datos y Datasets
+data/
+dataset_procesado/
+dataset_procesado_sin_da/
+*.parquet
+*.csv
+
+# Modelos y Checkpoints (Archivos Pesados)
+models/
+*.pth
+*.pt
+results/
+
+# Entornos Virtuales y Caches
+venv/
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# SO y otros
+.DS_Store
+Thumbs.db
