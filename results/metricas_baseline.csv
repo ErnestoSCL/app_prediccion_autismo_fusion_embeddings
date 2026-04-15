@@ -1,0 +1,4 @@
+slice_type,AUC,Accuracy,F1,Precision,Recall
+sagittal,0.6606,0.6096,0.6093,0.6095,0.6093
+coronal,0.6061,0.5651,0.5628,0.5653,0.5642
+axial,0.6405,0.6062,0.6048,0.6089,0.6071

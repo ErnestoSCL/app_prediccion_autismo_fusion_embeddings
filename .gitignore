@@ -1,15 +1,9 @@
 # Ficheros de Datos y Datasets
-data/
+data/*
+!data/splits.csv
 dataset_procesado/
 dataset_procesado_sin_da/
 *.parquet
-*.csv
-
-# Modelos y Checkpoints (Archivos Pesados)
-models/
-*.pth
-*.pt
-results/
 
 # Entornos Virtuales y Caches
 venv/
@@ -19,6 +13,6 @@ __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
 
-# SO y otros
+# SO
 .DS_Store
 Thumbs.db

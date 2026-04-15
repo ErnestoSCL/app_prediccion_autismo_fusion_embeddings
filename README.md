@@ -84,6 +84,13 @@ El sistema general promedia el siguiente desempeño clínico sobre la población
 - **F1-Score Ponderado**: `0.64`
 - _Nota Médica:_ Este modelo está diseñado para **screening temprano de marcadores anatómicos asociados**, no reemplaza métodos estandarizados de diagnóstico psiquiátrico y observación del comportamiento (como ADOS-2 o ADI-R).
 
+## 📂 Estructura de Datos
+El pipeline asume que los datos provienen del repositorio y están estructurados como `subject_id/axial.png`, `subject_id/sagittal.png`, etc.
+
+**Dataset Base:** El proyecto utiliza el dataset original disponible en HuggingFace: [Bhagya11/ASD_3D_Images_Single](https://huggingface.co/datasets/Bhagya11/ASD_3D_Images_Single).
+
+El preprocesamiento (`notebooks/PREPROCESAMIENTO.ipynb`) realiza una división estratificada y aumenta los datos (Data Augmentation) guardando tensores en formato `.parquet` para agilizar el I/O.
+
 ## 📄 Licencia y Agradecimientos
 
 - Todos los scripts de *Machine Learning* están distribuidos bajo Licencia MIT.
