@@ -1,22 +1,29 @@
-# 🧠 Clasificador de Riesgo de Autismo: Fusión Temprana de Embeddings Multivista
+# Prediccion de Riesgo de Autismo con Fusion Temprana de Embeddings
 
-![Python](https://img.shields.io/badge/Python-3.14-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.42+-FF4B4B)
-![License: MIT](https://img.shields.io/badge/License-MIT-green)
+[![Python](https://img.shields.io/badge/Python-3.14-blue)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C)](https://pytorch.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.42+-FF4B4B)](https://streamlit.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-Este repositorio contiene el código fuente de una aplicación de **Streamlit** y una estructura completa **MLOps** que permite la predicción temprana de rasgos asociados al Espectro Autista. El modelo se apoya en un sistema de **Fusión Temprana de Embeddings** extraídos mediante `EfficientNetB0` a partir de vistas ortogonales separadas de Resonancias Magnéticas Cerebrales en 3D (MRI).
+Aplicacion y pipeline experimental para estimar riesgo de trastorno del espectro autista (TEA) a partir de resonancias magneticas cerebrales (MRI) usando **fusion temprana de embeddings multivista**.
 
-## ✨ Características Principales
+## Demo en vivo
 
-* **Fusión de Representaciones Latentes:** El núcleo del sistema extrae características tridimensionales simuladas al evaluar un MRI preprocesado en sus cortes **Axial, Coronal y Sagital** a través de backbones de *Convolutional Neural Networks* (ResNet-like / EfficientNet).
-* **Perceptrón Multicapa (MLP):** Los 3 vectores de alta densidad (256-D cada uno) se concatenan en un **hipervector de 768-D** que es introducido a una red densa responsable de detectar alteraciones estructurales inter-cortes.
-* **Interfaz Profesional en Streamlit:** UI limpia diseñada para propósitos demostrativos que ofrece explicabilidad básica y predicción de riesgo binario.
-* **Módulos Independientes:** Incluye cuadernos completos de *Exploratory Data Analysis* (EDA), Preprocesamiento sin fugas (Anti-Leakage por paciente), Entrenamientos individuales y Fusión final.
+Prueba la aplicacion desplegada en Streamlit:
 
----
+- https://app-prediccion-autismo-fusion-embeddings.streamlit.app/
 
-## 🛠️ Arquitectura de la Solución
+## Resumen de la solucion
+
+El sistema trabaja con tres vistas ortogonales por sujeto:
+
+- Sagital
+- Coronal
+- Axial
+
+Cada vista se procesa con un backbone CNN para obtener embeddings de 256 dimensiones. Luego, los tres vectores se concatenan en un vector de 768 dimensiones y se clasifican con un MLP para estimar riesgo binario (TEA vs Control).
+
+## Arquitectura
 
 ```mermaid
 graph TD
@@ -24,76 +31,83 @@ graph TD
     B[Corte Coronal 2D] -->|EfficientNetB0| E(Embedding Coronal 256-d)
     C[Corte Axial 2D] -->|EfficientNetB0| F(Embedding Axial 256-d)
 
-    D --> G{Concatenación}
+    D --> G{Concatenacion}
     E --> G
     F --> G
 
     G -->|Tensor 768-d| H[MLP / Fully-Connected]
-    H -->|Dropout + Sigmoide| I((Riesgo de TEA / Control))
+    H --> I((Riesgo de TEA / Control))
 ```
 
-## 🗂️ Estructura del Proyecto
+## Estructura del repositorio
 
 ```text
 app_prediccion_autismo_fusion_embeddings/
-├── README.md                   # Esta documentación
-├── app/                        # Aplicación web, inferencia y dependencias
-│   ├── app.py                  # Aplicación Streamlit principal y UI
-│   ├── inference.py            # Clase MultimodalPredictor para inferencia
-│   ├── requirements.txt        # Librerías del entorno
-│   └── assets/                 # Casos pre-cargados para demostración en UI
-├── models/                     # Carpeta local de almacenamiento de pesos entrenados
-│   └── baseline/               # Modelos base `.pth` de extracción
-├── notebooks/                  # Experimentos técnicos MLOps 
-│   ├── EDA.ipynb                               # Análisis estadístico del MRI Dataset
-│   ├── PREPROCESAMIENTO.ipynb                  # Balance, Augmentación y Splits
-│   ├── ENTRENAMIENTO_MODELOS_POR_CORTE.ipynb   # Tuning aislado de EfficientNetB0
-│   └── ENTRENAMIENTO_MODELO_MULTIMODAL.ipynb   # Fusión temprana y ensamble de predictores
+├── README.md
+├── app/
+│   ├── app.py
+│   ├── inference.py
+│   ├── requirements.txt
+│   └── assets/
+├── data/
+├── models/
+│   └── baseline/
+├── notebooks/
+│   ├── EDA.ipynb
+│   ├── PREPROCESAMIENTO.ipynb
+│   ├── ENTRENAMIENTO_MODELOS_POR_CORTE.ipynb
+│   └── ENTRENAMIENTO_MODELO_MULTIMODAL.ipynb
+└── results/
 ```
 
-## 🚀 Instalación y Ejecución Local
+## Instalacion y ejecucion local
 
-Si deseas correr este proyecto de forma local para investigar la red o modificar los parámetros gráficos de inferencia:
+1. Clonar el repositorio:
 
-### 1. Clonar el repositorio
 ```bash
 git clone https://github.com/ErnestoSCL/app_prediccion_autismo_fusion_embeddings.git
 cd app_prediccion_autismo_fusion_embeddings
 ```
 
-### 2. Instalar las dependencias
-Asegúrate de contar con Python 3.9 o superior. Se recomienda altamente trabajar dentro de un `venv`:
+2. Crear entorno virtual e instalar dependencias de la app:
+
 ```bash
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
-pip install -r requirements.txt
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# Linux/Mac
+# source .venv/bin/activate
+
+pip install -r app/requirements.txt
 ```
 
-### 3. Levantar la Interfaz Web con Streamlit
+3. Ejecutar Streamlit:
+
 ```bash
-streamlit run app.py
+streamlit run app/app.py
 ```
-> El servicio se montará por defecto en `http://localhost:8501`.
 
----
+La aplicacion se abre por defecto en `http://localhost:8501`.
 
-## 📊 Métricas de Rendimiento (Evaluación en Held-Out puro)
+## Resultados de referencia
 
-El sistema general promedia el siguiente desempeño clínico sobre la población invisible de validación (`Test Split`):
-- **AUROC (Área Bajo la Curva ROC)**: `0.6738`
-- **F1-Score Ponderado**: `0.64`
-- _Nota Médica:_ Este modelo está diseñado para **screening temprano de marcadores anatómicos asociados**, no reemplaza métodos estandarizados de diagnóstico psiquiátrico y observación del comportamiento (como ADOS-2 o ADI-R).
+Evaluacion reportada en conjunto held-out:
 
-## 📂 Estructura de Datos
-El pipeline asume que los datos provienen del repositorio y están estructurados como `subject_id/axial.png`, `subject_id/sagittal.png`, etc.
+- AUROC: `0.6738`
+- F1-score ponderado: `0.64`
 
-**Dataset Base:** El proyecto utiliza el dataset original disponible en HuggingFace: [Bhagya11/ASD_3D_Images_Single](https://huggingface.co/datasets/Bhagya11/ASD_3D_Images_Single).
+Nota: el sistema esta orientado a tamizaje y apoyo investigativo. No sustituye protocolos clinicos de diagnostico (por ejemplo ADOS-2 o ADI-R).
 
-El preprocesamiento (`notebooks/PREPROCESAMIENTO.ipynb`) realiza una división estratificada y aumenta los datos (Data Augmentation) guardando tensores en formato `.parquet` para agilizar el I/O.
+## Datos y preprocesamiento
 
-## 📄 Licencia y Agradecimientos
+El pipeline asume estructura por sujeto (ejemplo: `subject_id/axial.png`, `subject_id/sagittal.png`, `subject_id/coronal.png`).
 
-- Todos los scripts de *Machine Learning* están distribuidos bajo Licencia MIT.
-- **Datos de Resonancia:** Los recortes y pre-procesamientos de *masking* de cerebro utilizaron el pipeline de `FreeSurfer` en bases de datos abiertas del ecosistema ABIDE. 
+Dataset de referencia:
 
-Desarrollado como proyecto avanzado de Deep Learning para arquitecturas de Visión Combinadas y Fusión Temprana.
+- https://huggingface.co/datasets/Bhagya11/ASD_3D_Images_Single
+
+El notebook `notebooks/PREPROCESAMIENTO.ipynb` implementa division estratificada y transformaciones para entrenamiento.
+
+## Licencia
+
+Este proyecto se distribuye bajo licencia MIT.
