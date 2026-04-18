@@ -35,7 +35,6 @@ API_URL = os.getenv("API_URL")
 # ==========================================
 st.set_page_config(
     page_title="Clasificador de Riesgo de Autismo",
-    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -213,7 +212,7 @@ with st.sidebar:
     st.title("Navegación")
     seccion = st.radio(
         "Menú Principal:",
-        ["🩺 Prueba del Modelo", "📘 Arquitectura e Infomación"],
+        ["Prueba del Modelo", "Arquitectura e Información"],
         label_visibility="collapsed"
     )
 
@@ -224,7 +223,7 @@ with st.sidebar:
 # ==========================================
 # 4. SECCIÓN: PRUEBA DEL MODELO
 # ==========================================
-if seccion == "🩺 Prueba del Modelo":
+if seccion == "Prueba del Modelo":
     st.markdown("<h1>Clasificador por Fusión de Embeddings Multivista</h1>", unsafe_allow_html=True)
     st.markdown("<div class='subtitle'>Fusión temprana de embeddings extraídos de Resonancia Magnética Estructural (Sagital, Coronal y Axial).</div>", unsafe_allow_html=True)
 
@@ -339,7 +338,7 @@ if seccion == "🩺 Prueba del Modelo":
 # ==========================================
 # 5. SECCIÓN: INFORMACIÓN
 # ==========================================
-elif seccion == "📘 Arquitectura e Infomación":
+elif seccion == "Arquitectura e Información":
     st.markdown("<h1>Arquitectura de Fusión Temprana</h1>", unsafe_allow_html=True)
     st.markdown("<div class='subtitle'>Detalles técnicos sobre la implementación del ensamblaje multimodal.</div>", unsafe_allow_html=True)
     
