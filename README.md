@@ -116,7 +116,7 @@ app_prediccion_autismo_fusion_embeddings/
 ├── .gitignore                  # Definición de seguimiento de versionado
 ├── README.md                   
 ├── requirements-api.txt        # Dependencias de Backend
-└── requirements-app.txt        # Dependencias de Frontend base
+└── requirements.txt            # Dependencias de Frontend/Streamlit
 ```
 
 ### 📸 Capturas de Pantalla
@@ -165,7 +165,7 @@ Si no deseas aislar en contenedores, basta con preparar tu entorno base e inicia
 python -m venv .venv
 # Activar entorno virtual
 pip install -r requirements-api.txt
-pip install -r requirements-app.txt
+pip install -r requirements.txt
 
 uvicorn api.main:app --host 0.0.0.0 --port 8000
 # En otra terminal:
