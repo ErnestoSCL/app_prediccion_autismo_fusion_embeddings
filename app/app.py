@@ -333,7 +333,7 @@ if seccion == "Prueba del Modelo":
 
 
     if not all_uploaded:
-        st.info("💡 Sube imágenes o haz clic en los botones de pacientes para evaluar la red.", icon="🩺")
+        st.info("💡 Sube imágenes o haz clic en los botones de pacientes para evaluar la red.")
 
 # ==========================================
 # 5. SECCIÓN: INFORMACIÓN
