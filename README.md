@@ -86,28 +86,38 @@ graph TD
 app_prediccion_autismo_fusion_embeddings/
 ├── api/                        # Backend Model Serving
 │   ├── main.py                 # FastAPI Endpoint y DB Hooks
-│   ├── model.py                # Fusión y Pesos (PyTorch)
-│   ├── models_db.py            # Tablas SQLAlchemy (Auditoría)
-│   ├── database.py             # Driver Conexión
-│   └── Dockerfile              
+│   ├── model.py                # Red Neural PyTorch
+│   ├── models_db.py            # Modelos ORM SQLAlchemy
+│   ├── database.py             # Script conexión BD
+│   ├── utils.py                # Funciones auxiliares genéricas
+│   ├── __init__.py             
+│   └── Dockerfile              # Construcción imagen del servicio API
 ├── app/                        # Streamlit Frontend UI
-│   ├── app.py                  
+│   ├── app.py                  # Aplicación de inferencia visual
+│   ├── inference.py            # Orquestador de peticiones HTTP
+│   ├── requirements.txt        # Dependencias exclusivas de frontend
 │   └── assets/                 # Pacientes de Prueba Dummy e Imágenes
-├── data/                       # Almacenamiento local del dataset (ignored via .gitignore)
+├── data/                       # Configuración de Data Local
+│   └── splits.csv              # Índices de validación pre-calculados
 ├── k8s/                        # Infraestructura como Código (Minikube)
 │   ├── api-*.yaml              # Deployments/Servicios del Endpoint
 │   └── postgres-*.yaml         # RDBMS Persistente
 ├── models/                     # Checkpoints de la Red (.pth)
+│   ├── baseline/               # Modelos entrenados independientemente por corte
+│   └── multimodal/             # Modelo centralizador de fusión de 3 cortes
 ├── notebooks/                  # Cuadernos de Investigación
 │   ├── EDA.ipynb               # Control de Calidad y Metadatos
-│   ├── PREPROCESAMIENTO*.ipynb # Limpieza y Anti-Leakage
-│   └── ENTRENAMIENTO*.ipynb    # Tuning de EfficientNet y Fusión
-├── results/                    # Gráficos y matrices de confusión calculadas
+│   ├── PREPROCESAMIENTO.ipynb  # Limpieza y Anti-Leakage
+│   ├── ENTRENAMIENTO_MODELOS_POR_CORTE.ipynb
+│   └── ENTRENAMIENTO_MODELO_MULTIMODAL.ipynb
+├── results/                    # Gráficos y Análisis
+│   ├── metricas_baseline.csv
+│   └── *.png                   # Curvas de entto, ROC y confusions
 ├── .env.example                # Plantilla de variables
 ├── .gitignore                  # Definición de seguimiento de versionado
 ├── README.md                   
-├── requirements-api.txt        
-└── requirements-app.txt        
+├── requirements-api.txt        # Dependencias de Backend
+└── requirements-app.txt        # Dependencias de Frontend base
 ```
 
 ### 📸 Capturas de Pantalla
