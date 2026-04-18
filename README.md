@@ -83,7 +83,7 @@ graph TD
 ### 🗂️ Estructura del Repositorio
 
 ```text
-app_prediccion_autismo_multimodal/
+app_prediccion_autismo_fusion_embeddings/
 ├── api/                        # Backend Model Serving
 │   ├── main.py                 # FastAPI Endpoint y DB Hooks
 │   ├── model.py                # Fusión y Pesos (PyTorch)
@@ -93,6 +93,7 @@ app_prediccion_autismo_multimodal/
 ├── app/                        # Streamlit Frontend UI
 │   ├── app.py                  
 │   └── assets/                 # Pacientes de Prueba Dummy e Imágenes
+├── data/                       # Almacenamiento local del dataset (ignored via .gitignore)
 ├── k8s/                        # Infraestructura como Código (Minikube)
 │   ├── api-*.yaml              # Deployments/Servicios del Endpoint
 │   └── postgres-*.yaml         # RDBMS Persistente
@@ -101,7 +102,9 @@ app_prediccion_autismo_multimodal/
 │   ├── EDA.ipynb               # Control de Calidad y Metadatos
 │   ├── PREPROCESAMIENTO*.ipynb # Limpieza y Anti-Leakage
 │   └── ENTRENAMIENTO*.ipynb    # Tuning de EfficientNet y Fusión
+├── results/                    # Gráficos y matrices de confusión calculadas
 ├── .env.example                # Plantilla de variables
+├── .gitignore                  # Definición de seguimiento de versionado
 ├── README.md                   
 ├── requirements-api.txt        
 └── requirements-app.txt        
