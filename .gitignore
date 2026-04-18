@@ -7,12 +7,16 @@ dataset_procesado_sin_da/
 
 # Entornos Virtuales y Caches
 venv/
+.venv/
 .env
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .pytest_cache/
 
-# SO
+# Herramientas y SO
 .DS_Store
 Thumbs.db
+.vscode/
+.streamlit/
+

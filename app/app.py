@@ -1,11 +1,34 @@
 import streamlit as st
 from PIL import Image
 from pathlib import Path
-import sys
+import io
 import os
+import requests
 
 # El archivo inference.py ahora se encuentra en la misma carpeta que app.py
 from inference import MultimodalPredictor
+
+
+def load_env_file() -> None:
+    """Load key/value pairs from project .env file into os.environ."""
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if not env_path.exists():
+        return
+
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key:
+            os.environ.setdefault(key, value)
+
+
+load_env_file()
+API_URL = os.getenv("API_URL")
 
 # ==========================================
 # 0. CONFIGURACIÓN DE PÁGINA
@@ -118,6 +141,45 @@ def load_predictor():
     models_dir = current_dir.parent / "models"
     return MultimodalPredictor(str(models_dir))
 
+
+def image_to_jpeg_bytes(image: Image.Image) -> bytes:
+    buffer = io.BytesIO()
+    image.convert("RGB").save(buffer, format="JPEG")
+    return buffer.getvalue()
+
+
+def predict_with_api(img_sag: Image.Image, img_cor: Image.Image, img_axi: Image.Image) -> float:
+    if not API_URL:
+        raise RuntimeError("API_URL no esta configurada")
+
+    files = {
+        "sagittal_file": ("sagittal.jpg", image_to_jpeg_bytes(img_sag), "image/jpeg"),
+        "coronal_file": ("coronal.jpg", image_to_jpeg_bytes(img_cor), "image/jpeg"),
+        "axial_file": ("axial.jpg", image_to_jpeg_bytes(img_axi), "image/jpeg"),
+    }
+    endpoint = f"{API_URL.rstrip('/')}/predict"
+    response = requests.post(endpoint, files=files, timeout=45)
+    if response.status_code != 200:
+        raise RuntimeError(f"API respondio {response.status_code}: {response.text}")
+
+    payload = response.json()
+    if "probability" not in payload:
+        raise RuntimeError("Respuesta de API sin campo 'probability'")
+    return float(payload["probability"])
+
+
+def get_prediction_probability(
+    predictor: MultimodalPredictor | None,
+    img_sag: Image.Image,
+    img_cor: Image.Image,
+    img_axi: Image.Image,
+) -> float:
+    if API_URL:
+        return predict_with_api(img_sag, img_cor, img_axi)
+    if predictor is None:
+        raise RuntimeError("Predictor local no inicializado")
+    return float(predictor.predict(img_sag, img_cor, img_axi))
+
 # Manejo de estado para cargar ejemplos
 if "demo_sag" not in st.session_state:
     st.session_state.demo_sag = None
@@ -175,8 +237,13 @@ if seccion == "🩺 Prueba del Modelo":
     </div>
     """, unsafe_allow_html=True)
 
-    with st.spinner("Cargando arquitectura tensorial..."):
-        predictor = load_predictor()
+    predictor = None
+    if API_URL:
+        st.caption(f"Modo API activo: `{API_URL}`")
+    else:
+        with st.spinner("Cargando arquitectura tensorial..."):
+            predictor = load_predictor()
+        st.caption("Modo local activo: inferencia en Streamlit")
 
     # Controles de Ejemplos Integrados
     st.markdown("### Seleccionar Caso de Ejemplo")
@@ -227,7 +294,7 @@ if seccion == "🩺 Prueba del Modelo":
         if st.button("Generar Reporte de Predicción", type="primary", disabled=not all_uploaded, width='stretch'):
             
             with st.spinner("Fusionando representaciones tensoriales..."):
-                prob = predictor.predict(img_sag, img_cor, img_axi)
+                prob = get_prediction_probability(predictor, img_sag, img_cor, img_axi)
                 prob_percent = prob * 100.0
                 
                 st.markdown("<br>", unsafe_allow_html=True)
