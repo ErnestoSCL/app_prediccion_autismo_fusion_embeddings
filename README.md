@@ -95,7 +95,6 @@ app_prediccion_autismo_fusion_embeddings/
 ├── app/                        # Streamlit Frontend UI
 │   ├── app.py                  # Aplicación de inferencia visual
 │   ├── inference.py            # Orquestador de peticiones HTTP
-│   ├── requirements.txt        # Dependencias exclusivas de frontend
 │   └── assets/                 # Pacientes de Prueba Dummy e Imágenes
 ├── data/                       # Configuración de Data Local
 │   └── splits.csv              # Índices de validación pre-calculados
