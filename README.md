@@ -82,10 +82,11 @@ graph TD
 
 ### 📸 Capturas de Pantalla
 
-*(Nota para el usuario local: Reemplazar estos vínculos con archivos reales dentro de ./assets una vez subidos)*
-> **UI Principal:** `![Interfaz Streamlit](./app/assets/screenshot_ui.png)`  
-> **Resultado de Predicción:** `![Predicción UI](./app/assets/screenshot_prediction.png)`
-> **Logs de BD:** `![Visualización DB](./app/assets/screenshot_db.png)`
+**UI Principal (Despliegue Experimental):**
+![Interfaz Streamlit](app/assets/screenshot_ui.png)
+
+**Resultado de Predicción Multivista:**
+![Predicción UI](app/assets/screenshot_prediction.png)
 
 ---
 
