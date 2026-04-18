@@ -80,6 +80,33 @@ graph TD
     end
 ```
 
+### 🗂️ Estructura del Repositorio
+
+```text
+app_prediccion_autismo_multimodal/
+├── api/                        # Backend Model Serving
+│   ├── main.py                 # FastAPI Endpoint y DB Hooks
+│   ├── model.py                # Fusión y Pesos (PyTorch)
+│   ├── models_db.py            # Tablas SQLAlchemy (Auditoría)
+│   ├── database.py             # Driver Conexión
+│   └── Dockerfile              
+├── app/                        # Streamlit Frontend UI
+│   ├── app.py                  
+│   └── assets/                 # Pacientes de Prueba Dummy e Imágenes
+├── k8s/                        # Infraestructura como Código (Minikube)
+│   ├── api-*.yaml              # Deployments/Servicios del Endpoint
+│   └── postgres-*.yaml         # RDBMS Persistente
+├── models/                     # Checkpoints de la Red (.pth)
+├── notebooks/                  # Cuadernos de Investigación
+│   ├── EDA.ipynb               # Control de Calidad y Metadatos
+│   ├── PREPROCESAMIENTO*.ipynb # Limpieza y Anti-Leakage
+│   └── ENTRENAMIENTO*.ipynb    # Tuning de EfficientNet y Fusión
+├── .env.example                # Plantilla de variables
+├── README.md                   
+├── requirements-api.txt        
+└── requirements-app.txt        
+```
+
 ### 📸 Capturas de Pantalla
 
 **UI Principal (Despliegue Experimental):**
